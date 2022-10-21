@@ -1,18 +1,24 @@
+import java.io.*;
 import java.util.Scanner;
-import java.io.File;
 
-// TODO Add Filename
-// TODO Implement Load Database
-// TODO Implement Save Database
 /**
  * Represents a pet database cli.
  */
 public class PetDatabase
 {
-    final static PetMenu PET_MENU = new PetMenu(7); // Main database menu
+
+    final static PetType GENERIC = new PetType("Generic");
+    final static PetType DOG = new PetType("Dog");
+    final static PetType CAT = new PetType("Cat");
+    final static PetType FISH = new PetType("Fish");
+
+    final static StringIntPair[] COLUMN_WIDTH_NAME = new StringIntPair[] {
+            new StringIntPair(4, "ID"),
+            new StringIntPair(6, "Name"),
+            new StringIntPair(5, "AGE"),
+            new StringIntPair(16, "TYPE")
+    };
     final static String FILENAME = "pets.txt";
-    final static String[] COLUMN_NAMES = {"ID", "NAME", "AGE", "TYPE"}; // Corresponds to widths. Used in table printer.
-    static int[] COLUMN_WIDTHS = {4, 6, 5, 16}; // ID, Name, Age, Type
     static Scanner s = new Scanner(System.in); // Input reader
     static Pet[] pets = new Pet[200]; // Pet array stores pet data. Max 200.
     static int petCount = 0; // Current number of pets stored in pet array.
@@ -25,34 +31,28 @@ public class PetDatabase
     public static void main(String[] args)
     {
         System.out.println("Welcome to Pet Database!");
-        loadDatabase();
-        int state;
-        while ((state = PET_MENU.consumeState()) != PET_MENU.EXIT)
-        {
-            switch (state)
-            {
-                case PetMenu.FILL_STATE -> fillState();
-                case PetMenu.SHOW_PETS -> showPets();
-                case PetMenu.ADD_PETS -> addPets();
-                case PetMenu.UPDATE_PET -> updatePet();
-                case PetMenu.REMOVE_PET -> removePet();
-                case PetMenu.SEARCH_BY_NAME -> searchPetsByName();
-                case PetMenu.SEARCH_BY_AGE -> searchPetsByAge();
-                case PetMenu.SEARCH_BY_TYPE -> searchPetsByType();
-            }
-        }
+        //loadDatabase();
         System.out.println("Farewell!");
     }
 
-    // TODO
-    public static void loadDatabase()
+    // TODO Implement
+    public static void loadDatabase() throws FileNotFoundException
     {
+        File file = new File(FILENAME);
+        Scanner input = new Scanner(file);
+        while (input.hasNext())
+        {
+
+        }
 
     }
-    // TODO
-    public static void saveDatabase()
-    {
 
+    // TODO Implement
+    public static void save(Pet pet) throws FileNotFoundException
+    {
+        PrintWriter output = new PrintWriter(new FileOutputStream(new File(FILENAME), true));
+        output.println(pet.getID() + "," + pet.getName() + "," + pet.getAge() + "," + pet.getType());
+        output.close();
     }
 
     /**
@@ -74,23 +74,30 @@ public class PetDatabase
             printTableRow(pets[i].getID(), pets[i].getName(), pets[i].getAge(), pets[i].print());
         printTableFooter(petCount);
     }
-    /**
-     * Prompt user for pets and add pets to database.
-     */
+
+//    /**
+//     * Prompt user for pets and add pets to database.
+//     */
+//    public static void addPets()
+//    {
+//        System.out.print(getPetInputRules() + "Please add pet data. Enter 'done' when finished.\n");
+//        String prompt = "Enter the name and age (name, age): ";
+//        String input = promptValidPetData(prompt);
+//
+//        while (!input.equalsIgnoreCase("done"))
+//        {
+//            String name = input.substring(0, input.indexOf(",")).trim();
+//            int age = Integer.parseInt(input.substring(input.indexOf(", ") + 1).trim());
+//            pets[petCount++] = promptPetWithType(name, age);
+//            updateColWidths(name);
+//            input = promptValidPetData(prompt);
+//        }
+//    }
+
     public static void addPets()
     {
-        System.out.print(getPetInputRules() + "Please add pet data. Enter 'done' when finished.\n");
-        String prompt = "Enter the name and age (name, age): ";
-        String input = promptValidPetData(prompt);
+        System.out.println(getPetInputRules() + "Please add pet data. Enter 'done' when finished.");
 
-        while (!input.equalsIgnoreCase("done"))
-        {
-            String name = input.substring(0, input.indexOf(",")).trim();
-            int age = Integer.parseInt(input.substring(input.indexOf(", ") + 1).trim());
-            pets[petCount++] = promptPetWithType(name, age);
-            updateColWidths(name);
-            input = promptValidPetData(prompt);
-        }
     }
 
     // TODO
@@ -222,7 +229,7 @@ public class PetDatabase
         printTableHeader();
         for (int i = 0; i < petCount; i++)
         {
-            if (checkIfChosenInstance(pets[i], choice))
+            if (pets[i].getType() == choice)
             {
                 printTableRow(pets[i].getID(), pets[i].getName(), pets[i].getAge(), pets[i].print());
                 count++;
@@ -248,45 +255,28 @@ public class PetDatabase
         System.out.println();
     }
 
-    /**
-     * @param pet    Pet to check
-     * @param choice Choice of pet type
-     * @return if pet is instance of type chosen, return true; else false.
-     */
-    public static boolean checkIfChosenInstance(Pet pet, int choice)
-    {
-        return switch (choice)
-                {
-                    case PetTypes.DOG -> pet instanceof Dog;
-                    case PetTypes.CAT -> pet instanceof Cat;
-                    case PetTypes.FISH -> pet instanceof Fish;
-                    default -> pet != null;
-                };
-    }
-
-    /**
-     * @param name name of new Pet
-     * @param age  age of new Pet
-     * @return Pet with name and age given by params returned as user defined type
-     */
-    public static Pet promptPetWithType(String name, int age)
-    {
-        String prompt = "What type of pet is " + name + "?\n" + PetTypes.getPetTypeOptions();
-        int choice = persistentPromptPositiveInt(prompt);
-        while (choice < 1 || choice > 4)
-        {
-            System.out.println("Invalid choice, please choose a number between 1 and 4.");
-            choice = persistentPromptPositiveInt(prompt);
-        }
-        return switch (choice)
-                {
-                    case PetTypes.DOG -> new Dog(name, age);
-                    case PetTypes.CAT -> new Cat(name, age);
-                    case PetTypes.FISH -> new Fish(name, age);
-                    default -> new Pet(name, age);
-                };
-    }
-
+//    /**
+//     * @param name name of new Pet
+//     * @param age  age of new Pet
+//     * @return Pet with name and age given by params returned as user defined type
+//     */
+//    public static Pet promptPetWithType(String name, int age)
+//    {
+//        String prompt = "What type of pet is " + name + "?\n" + PetTypes.getPetTypeOptions();
+//        int choice = persistentPromptPositiveInt(prompt);
+//        while (choice < 1 || choice > 4)
+//        {
+//            System.out.println("Invalid choice, please choose a number between 1 and 4.");
+//            choice = persistentPromptPositiveInt(prompt);
+//        }
+//        return switch (choice)
+//            {
+//                case PetTypes.DOG -> new Dog(name, age);
+//                case PetTypes.CAT -> new Cat(name, age);
+//                case PetTypes.FISH -> new Fish(name, age);
+//                default -> new Pet(name, age);
+//            };
+//    }
 
     /**
      * Persistently prompt user until positive int is given
@@ -306,25 +296,26 @@ public class PetDatabase
         }
     }
 
-    // TODO Replace with parseArgument
-    /**
-     * Prompt user for pet data and validate data follows specified rules. See getPetInputRules().
-     *
-     * @return Valid input String
-     */
-    public static String promptValidPetData(String prompt)
-    {
-        System.out.print(prompt);
-        String input = s.nextLine().trim();
-        while (!input.matches("^[A-Z][A-Za-z]*.?( [A-Z][a-zA-Z]*.?){0,2}, [0-9]{1,2}$")
-                && !input.equalsIgnoreCase("done"))
-        {
-            System.out.print("Input invalid. Please review rules and try again.\n");
-            System.out.print(prompt);
-            input = s.nextLine().trim();
-        }
-        return input;
-    }
+//    // TODO Replace with parseArgument
+//
+//    /**
+//     * Prompt user for pet data and validate data follows specified rules. See getPetInputRules().
+//     *
+//     * @return Valid input String
+//     */
+//    public static String promptValidPetData(String prompt)
+//    {
+//        System.out.print(prompt);
+//        String input = s.nextLine().trim();
+//        while (!input.matches("^[A-Z][A-Za-z]*.?( [A-Z][a-zA-Z]*.?){0,2}, [0-9]{1,2}$")
+//                && !input.equalsIgnoreCase("done"))
+//        {
+//            System.out.print("Input invalid. Please review rules and try again.\n");
+//            System.out.print(prompt);
+//            input = s.nextLine().trim();
+//        }
+//        return input;
+//    }
 
     /**
      * Pause before moving forward
@@ -443,113 +434,19 @@ public class PetDatabase
             count++;
         return count;
     }
-
-    /**
-     * Represents a pet menu which specifies and assists in the management of the pet database menu states.
-     */
-    static class PetMenu extends Menu
-    {
-        // Menu options
-        public final static int SHOW_PETS = 1;
-        public final static int ADD_PETS = 2;
-        public final static int UPDATE_PET = 3;
-        public final static int REMOVE_PET = 4;
-        public final static int SEARCH_BY_NAME = 5;
-        public final static int SEARCH_BY_AGE = 6;
-        public final static int SEARCH_BY_TYPE = 7;
-
-        PetMenu(int nOptions)
-        {
-            super(nOptions);
-        }
-
-        /**
-         * @return String displaying the menu.
-         */
-        public static String getMenu()
-        {
-            return """
-                                        
-                    What would you like to do?
-                    1. View all pets
-                    2. Add more pets
-                    3. Update an existing pet
-                    4. Remove an existing pet
-                    5. Search pets by name
-                    6. Search pets by age
-                    7. Search pets by type
-                    8. Exit program
-                    """;
-        }
-    }
-
-    public static class PetTypes
-    {
-        public final static int DOG = 1;
-        public final static int CAT = 2;
-        public final static int FISH = 3;
-        public final static int PET = 4;
-
-
-        public static String getPetTypeOptions()
-        {
-            return DOG + ".Dog\n" + CAT + ".Cat\n" + FISH + ".Fish\n" + PET
-                    + ".Generic Pet\nYour choice: ";
-        }
-    }
 }
 
-/**
- * Base Menu class (could be implemented as abstract)
- */
-class Menu
+class PetType extends Option
 {
-    public static final int FILL_STATE = 0;
-    public final int EXIT;
-    private int state = 0;
+    final static int CAPACITY = 50;
+    static int nTypes = 0;
+    static PetType[] types = new PetType[CAPACITY];
 
-    /**
-     * Menu constructor
-     *
-     * @param nOptions Number of options the menu will handle.
-     */
-    Menu(int nOptions)
+    PetType(String name)
     {
-        EXIT = nOptions + 1;
-    }
-
-    /**
-     * Get current state and set menu state to FILL_STATE
-     *
-     * @return current state
-     */
-    public int consumeState()
-    {
-        int copy = state;
-        state = FILL_STATE;
-        return copy;
-    }
-
-    /**
-     * @return Current state
-     */
-    public int getState()
-    {
-        return state;
-    }
-
-    /**
-     * Update Menu State.
-     *
-     * @param state New menu state.
-     */
-    public void fillState(int state)
-    {
-        if (state < 0 || state > EXIT)
-        {
-            throw new IllegalArgumentException("ERROR. INVALID MENU STATE.");
-        } else
-            this.state = state;
+        super(nTypes, name);
+        types[nTypes++] = this;
+        //TODO exception
     }
 }
 
@@ -562,29 +459,33 @@ class Pet
     private final int ID;            // Unique id given to each pet
     private String name;
     private int age;
+    private PetType type;
 
-    Pet(String name, int age, int id)
+    Pet(String name, int age, int id, PetType type)
     {
         setName(name);
         setAge(age);
         this.ID = id;
-        nextID = Math.max(nextID, id) + 1;
+        this.type = type;
+        this.nextID = Math.max(nextID, id) + 1;
     }
+
     /**
      * Constructor for a Pet object
      *
      * @param name Name of pet
      * @param age  Age of pet
      */
-    Pet(String name, int age)
+    Pet(String name, int age, PetType type)
     {
-        this(name, age, nextID);
+        this(name, age, nextID, type);
     }
 
     public static int getNextID()
     {
         return nextID;
     }
+
     /**
      * @return Unique pet id
      */
@@ -625,90 +526,26 @@ class Pet
         this.age = age;
     }
 
-    public String print()
-    {
-        return "I am a pet!";
-    }
 }
-
-class Dog extends Pet
+class PetDatabaseMenu
 {
-    Dog(String name, int age)
+    private final MenuCommand[] commands;
+
+    public String listMenu()
     {
-        super(name, age);
+        return "What would you like to do?\n" + Option.list(commands) + "Choice: ";
     }
 
-    public String print()
+    public void runChoice(int choice) throws Exception
     {
-        return "I am a dog!";
+        commands[choice].execute();
     }
+
 }
 
-class Cat extends Pet
-{
 
-    Cat(String name, int age)
-    {
-        super(name, age);
-    }
 
-    public String print()
-    {
-        return "I am a cat!";
-    }
-}
 
-class Fish extends Pet
-{
-    Fish(String name, int age)
-    {
-        super(name, age);
-    }
-
-    public String print()
-    {
-        return "I am a fish!";
-    }
-}
-
-// TODO Implement InvalidAgeException - thrown in setAge() if range is outside 1-50
-class InvalidAgeException extends Exception
-{
-    InvalidAgeException(int age)
-    {
-        super(age + " is not a valid age.");
-    }
-}
-// TODO Implement InvalidArgumentException - thrown in parseArgument() if input is not valid
-class InvalidArgumentException extends Exception
-{
-    InvalidArgumentException(String input)
-    {
-        super(input + " is not a valid input.");
-    }
-}
-// TODO Implement InvalidIdException - thrown in removePet() (and update pet?) when ID is not in range 0 - petCount
-class InvalidIdException extends Exception
-{
-    InvalidIdException(int id)
-    {
-        super("ID " + id + " does not exist");
-    }
-}
-// TODO Implement FullDatabaseException - thrown in addPet() when petCount == CAPACITY
-class FullDatabaseException extends Exception
-{
-    FullDatabaseException()
-    {
-        super("Database is full.");
-    }
-}
-
-// TODO Implement Load Database
-// TODO Implement Save Database
-    // Would be nice to do when adding pets
-    // Save pets would need to push pets to database and push new pets to current app
-    //
 
 // TODO Throw and handle exceptions
 // TODO Add pets added message displaying number of pets added to add pets
