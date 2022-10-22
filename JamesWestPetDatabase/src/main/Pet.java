@@ -1,9 +1,11 @@
+package main;
+
 import java.util.ArrayList;
 
 /**
  * Represents a pet class containing pet data
  */
-class Pet
+public class Pet
 {
     private static int nextID = 0;
     private final int ID;            // Unique id given to each pet
@@ -19,12 +21,12 @@ class Pet
     }
 
     /**
-     * Constructor for a Pet object
+     * Constructor for a main.Pet object
      *
      * @param name Name of pet
      * @param age  Age of pet
      */
-    Pet(String name, int age)
+    public Pet(String name, int age)
     {
         this(name, age, nextID);
     }
