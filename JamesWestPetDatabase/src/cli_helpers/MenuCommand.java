@@ -11,6 +11,6 @@ public class MenuCommand extends Option
 
     public void execute()
     {
-        System.out.println("Test");
+        throw new RuntimeException("Error: Menu command not overridden");
     }
 }

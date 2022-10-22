@@ -1,8 +1,7 @@
 package menu_commands;
 
 import cli_helpers.MenuCommand;
-
-import static main.PetDatabaseCLI.*;
+import main.PetDatabase;
 
 public class ShowPets extends MenuCommand
 {
@@ -15,23 +14,23 @@ public class ShowPets extends MenuCommand
     {
         print();
         System.out.print("Hit enter to continue...");
-        scanner.nextLine();
+        PetDatabase.STDIN.nextLine();
     }
 
     public static String[][] getPetsData()
     {
-        String[][] strArr = new String[pets.size()][3];
-        for (int i = 0; i < pets.size(); i++)
+        String[][] strArr = new String[PetDatabase.PETS.size()][3];
+        for (int i = 0; i < PetDatabase.PETS.size(); i++)
             strArr[i] = new String[]{
-                    Integer.toString(pets.get(i).getID()),
-                    pets.get(i).getName(),
-                    Integer.toString(pets.get(i).getAge())
+                    Integer.toString(PetDatabase.PETS.get(i).getID()),
+                    PetDatabase.PETS.get(i).getName(),
+                    Integer.toString(PetDatabase.PETS.get(i).getAge())
             };
         return strArr;
     }
 
     private static void print()
     {
-        System.out.print(TABLE_BUILDER.buildAutoSizeTable(getPetsData()));
+        System.out.print(PetDatabase.TABLE_BUILDER.buildAutoSizeTable(getPetsData()));
     }
 }

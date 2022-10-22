@@ -1,7 +1,9 @@
 package menu_commands;
+
 import cli_helpers.MenuCommand;
 import main.Pet;
-import static main.PetDatabaseCLI.*;
+import main.PetDatabase;
+
 
 public class AddPets extends MenuCommand
 {
@@ -16,9 +18,9 @@ public class AddPets extends MenuCommand
         String[] input;
         System.out.println("Please add pet data. Enter 'done' when finished.");
         System.out.print("Enter pet data (name, age): ");
-        while (!(input = scanner.nextLine().split(" "))[0].equalsIgnoreCase("done"))
+        while (!(input = PetDatabase.STDIN.nextLine().split(" "))[0].equalsIgnoreCase("done"))
         {
-            pets.add(new Pet(input[0], Integer.parseInt(input[1])));
+            PetDatabase.PETS.add(new Pet(input[0], Integer.parseInt(input[1])));
             count++;
             System.out.print("Enter pet data (name, age): ");
         }

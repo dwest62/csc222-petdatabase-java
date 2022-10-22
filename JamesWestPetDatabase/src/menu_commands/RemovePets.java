@@ -1,8 +1,8 @@
 package menu_commands;
 
-import static main.PetDatabaseCLI.*;
-import cli_helpers.*;
+import cli_helpers.MenuCommand;
 import main.Pet;
+import main.PetDatabase;
 
 public class RemovePets extends MenuCommand
 {
@@ -13,12 +13,12 @@ public class RemovePets extends MenuCommand
 
     public void execute()
     {
-        System.out.println(TABLE_BUILDER.buildAutoSizeTable(ShowPets.getPetsData()));
+        System.out.println(PetDatabase.TABLE_BUILDER.buildAutoSizeTable(ShowPets.getPetsData()));
         System.out.print("Enter the pet ID to remove: ");
 
         String delPetName = "";
         // Cool use of functional program here, but can't yet use.
         // Pet pet = pets.stream().filter(p -> p.getID() == Integer.parseInt(s.nextLine())).findFirst().orElse(null);
-        pets.remove(Pet.findByID(pets, Integer.parseInt(scanner.nextLine())));
+        PetDatabase.PETS.remove(Pet.findByID(PetDatabase.PETS, Integer.parseInt(PetDatabase.STDIN.nextLine())));
     }
 }

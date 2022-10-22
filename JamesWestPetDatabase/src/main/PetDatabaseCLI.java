@@ -2,21 +2,11 @@ package main;
 
 import cli_helpers.*;
 import menu_commands.*;
-import java.util.ArrayList;
-import java.util.Scanner;
+
+import static main.PetDatabase.STDIN;
 
 public class PetDatabaseCLI
 {
-    static final ArrayList<Field> TABLE_FIELDS = new ArrayList<Field>()
-    {
-        {
-            add(new Field(4, "ID"));
-            add(new Field(6, "Name"));
-            add(new Field(5, "AGE"));
-        }
-    };
-
-    public static final TableBuilder TABLE_BUILDER = new TableBuilder(TABLE_FIELDS);
 
     static Menu menu = new Menu(
             new MenuCommand[]{
@@ -29,9 +19,6 @@ public class PetDatabaseCLI
             "Choice: "
     );
 
-    public static Scanner scanner = new Scanner(System.in);
-    public static ArrayList<Pet> pets = new ArrayList<>();
-
     public static void run()
     {
         System.out.println("Welcome to Pet Database!");
@@ -43,7 +30,7 @@ public class PetDatabaseCLI
     public static MenuCommand promptChoice()
     {
         System.out.print(menu.buildMenu());
-        return menu.getCommand(Integer.parseInt(scanner.nextLine()));
+        return menu.getCommand(Integer.parseInt(STDIN.nextLine()));
     }
 
 }
