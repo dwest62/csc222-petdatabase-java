@@ -1,7 +1,9 @@
-class Option extends StringIntPair
+package cli_helpers;
+
+public class Option extends StringIntPair
 {
 
-    Option(int n, String str)
+    protected Option(int n, String str)
     {
         super(n, str);
     }

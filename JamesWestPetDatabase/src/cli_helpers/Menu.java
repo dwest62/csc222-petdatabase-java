@@ -1,12 +1,11 @@
-/**
- * Base Menu class (could be implemented as abstract)
- */
-class Menu
+package cli_helpers;
+
+public class Menu
 {
     private final MenuCommand[] commands;
     private String header;
     private String prompt;
-    Menu(MenuCommand[] commands, String header, String prompt)
+    public Menu(MenuCommand[] commands, String header, String prompt)
     {
         this.commands = commands;
         this.header = header + "\n";
@@ -40,9 +39,5 @@ class Menu
     public MenuCommand getCommand(int number)
     {
         return commands[number - 1];
-    }
-    public void runCommand(MenuCommand command)
-    {
-        command.execute();
     }
 }

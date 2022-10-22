@@ -1,13 +1,16 @@
-class StringIntPair
+package cli_helpers;
+
+public class StringIntPair
 {
     protected int n = 0;
     protected String str = "";
 
-    StringIntPair(int n, String str)
+    protected StringIntPair(int n, String str)
     {
         this.n = n;
         this.str = str;
     }
+
     public static int[] extractInts(StringIntPair[] pairs)
     {
         int[] numbers = new int[pairs.length];
