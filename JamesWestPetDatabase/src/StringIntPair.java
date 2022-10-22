@@ -1,31 +1,25 @@
 class StringIntPair
 {
-    private int n = 0;
-    private String str = "";
+    protected int n = 0;
+    protected String str = "";
 
     StringIntPair(int n, String str)
     {
         this.n = n;
         this.str = str;
     }
-
-    public int getN()
+    public static int[] extractInts(StringIntPair[] pairs)
     {
-        return n;
+        int[] numbers = new int[pairs.length];
+        for(int i = 0; i < pairs.length; i++)
+            numbers[i] = pairs[i].n;
+        return numbers;
     }
-
-    public void setN(int n)
+    public static String[] extractStrings(StringIntPair[] pairs)
     {
-        this.n = n;
-    }
-
-    public String getStr()
-    {
-        return str;
-    }
-
-    public void setStr(String str)
-    {
-        this.str = str;
+        String[] strings = new String[pairs.length];
+        for(int i = 0; i < pairs.length; i++)
+            strings[i] = pairs[i].str;
+        return strings;
     }
 }

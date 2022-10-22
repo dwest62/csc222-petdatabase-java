@@ -1,19 +1,21 @@
 class MenuCommand extends Option
 {
-    final static int CAPACITY = 30;
-    static int nOptions = 0;
-    static MenuCommand[] options = new MenuCommand[CAPACITY];
+    static int nOptions = 1;
 
     MenuCommand(String name)
     {
-        super(nOptions, name);
-        options[nOptions++] = this;
+        super(nOptions++, name);
     }
 
-    public void execute() throws Exception
+    public static void execute()
     {
-        throw new Exception("Not implemented");
+    }
+    public static MenuCommand getFromNumber(MenuCommand[] commands, int number)
+    {
+        return commands[number - 1];
+    }
+    public boolean isEqualTo(MenuCommand command)
+    {
+        return this.equals(command);
     }
 }
-
-class

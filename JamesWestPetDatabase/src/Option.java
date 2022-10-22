@@ -8,7 +8,7 @@ class Option extends StringIntPair
 
     public String list()
     {
-        return getN() + ". " + getStr();
+        return super.n + ". " + super.str;
     }
 
     public static String list(Option[] options)
