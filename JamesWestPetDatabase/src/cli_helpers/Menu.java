@@ -8,7 +8,7 @@ public class Menu
     public Menu(MenuCommand[] commands, String header, String prompt)
     {
         this.commands = commands;
-        this.header = header + "\n";
+        this.header = "\n" + header + "\n";
         this.prompt = prompt;
     }
     Menu(MenuCommand[] commands)

@@ -1,4 +1,4 @@
-package commands;
+package menu_commands;
 
 import static main.PetDatabaseCLI.*;
 import cli_helpers.*;

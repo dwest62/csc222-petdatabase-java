@@ -1,4 +1,4 @@
-package commands;
+package menu_commands;
 
 import cli_helpers.MenuCommand;
 
@@ -32,6 +32,6 @@ public class ShowPets extends MenuCommand
 
     private static void print()
     {
-        System.out.println(TABLE_BUILDER.buildAutoSizeTable(getPetsData()));
+        System.out.print(TABLE_BUILDER.buildAutoSizeTable(getPetsData()));
     }
 }

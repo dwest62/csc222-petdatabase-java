@@ -1,7 +1,7 @@
 package main;
 
 import cli_helpers.*;
-import commands.*;
+import menu_commands.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -34,7 +34,7 @@ public class PetDatabaseCLI
 
     public static void run()
     {
-        System.out.println("Welcome to main.Pet Database!\n");
+        System.out.println("Welcome to Pet Database!");
         MenuCommand command;
         while (!((command = promptChoice()) instanceof Exit))
             command.execute();
