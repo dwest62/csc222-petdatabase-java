@@ -2,14 +2,16 @@ package main;
 
 import cli_helpers.Field;
 import cli_helpers.TableBuilder;
-import filehandler.FileHandler;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class PetDatabase
 {
+    static final public int CAPACITY = 5;
     final public static String FILE_NAME = "pets.txt";
     final public static File FILE = new File(FILE_NAME);
     final public static Scanner STDIN = new Scanner(System.in);
@@ -26,16 +28,25 @@ public class PetDatabase
 
     public static void main(String[] args)
     {
+        
         loadDatabase();
-        PetDatabaseCLI.run();
-        saveToDatabase();
+        try
+        {
+            PetDatabaseCLI.run();
+        } catch (Exception e)
+        {
+            System.out.println("Unexpected error: " + e.getMessage());
+        } finally
+        {
+            saveToDatabase();
+        }
+
     }
     public static void loadDatabase()
     {
         try
         {
-            String data = FileHandler.fileToString(FILE);
-            System.out.println(data);
+            String data = fileToString(FILE);
             String[] lines = data.split("\n");
             for(String line: lines)
             {
@@ -64,12 +75,25 @@ public class PetDatabase
                 .append(pet.getID()).append("\n");
         try
         {
-            FileHandler.stringToFile(FILE, str.toString());
+            stringToFile(FILE, str.toString());
         } catch (Exception e)
         {
             System.out.println(e.getMessage());
         }
-
+    }
+    public static String fileToString(File file) throws FileNotFoundException
+    {
+        StringBuilder output = new StringBuilder();
+        Scanner input = new Scanner(file);
+        while (input.hasNextLine())
+            output.append(input.nextLine()).append('\n');
+        return output.toString();
+    }
+    public static void stringToFile(File file, String input) throws FileNotFoundException
+    {
+        PrintWriter output = new PrintWriter(file);
+        output.print(input);
+        output.close();
     }
 }
 

@@ -1,6 +1,8 @@
 package main;
 
 import java.util.ArrayList;
+import exceptions.InvalidAgeException;
+import exceptions.InvalidIdException;
 
 /**
  * Represents a pet class containing pet data
@@ -12,7 +14,7 @@ public class Pet
     private String name;
     private int age;
 
-    Pet(String name, int age, int id)
+    Pet(String name, int age, int id) throws InvalidAgeException
     {
         setName(name);
         setAge(age);
@@ -26,7 +28,7 @@ public class Pet
      * @param name Name of pet
      * @param age  Age of pet
      */
-    public Pet(String name, int age)
+    public Pet(String name, int age) throws InvalidAgeException
     {
         this(name, age, nextID);
     }
@@ -71,16 +73,18 @@ public class Pet
     /**
      * @param age new age of pet
      */
-    public void setAge(int age)
+    public void setAge(int age) throws InvalidAgeException
     {
+        if(age < 1 || age > 50)
+            throw new InvalidAgeException(age);
         this.age = age;
     }
 
-    public static Pet findByID(ArrayList<Pet> pets, int id)
+    public static Pet findByID(ArrayList<Pet> pets, int id) throws InvalidIdException
     {
         for (Pet pet : pets)
             if (pet.getID() == id)
                 return pet;
-        return null;
+        throw new InvalidIdException(id);
     }
 }

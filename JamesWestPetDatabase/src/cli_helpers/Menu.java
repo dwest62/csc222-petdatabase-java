@@ -1,20 +1,19 @@
 package cli_helpers;
 
+import exceptions.InvalidCommandException;
+
 public class Menu
 {
     private final MenuCommand[] commands;
-    private String header;
-    private String prompt;
-    public Menu(MenuCommand[] commands, String header, String prompt)
+    private String header = "Main menu\n";
+    private String prompt = "Choice: ";
+    private String deliminator = ". ";
+    private int offset = 0;
+    public Menu(MenuCommand[] commands)
     {
         this.commands = commands;
-        this.header = "\n" + header + "\n";
-        this.prompt = prompt;
     }
-    Menu(MenuCommand[] commands)
-    {
-        this(commands, "Main menu\n", "Choice: ");
-    }
+
     public String getHeader()
     {
         return header;
@@ -23,21 +22,51 @@ public class Menu
     {
         this.header = header;
     }
-    public String getFooter()
+    public String getPrompt ()
     {
         return prompt;
     }
-    public void setFooter(String footer)
+    public void setPrompt (String footer)
     {
         this.prompt = footer;
     }
-    public String buildMenu()
+    public String buildMenu(String deliminator)
     {
-        return header + Option.list(commands) + prompt;
+        return buildMenu(deliminator, 0);
+    }
+    public String buildMenu(String deliminator, int offset)
+    {
+        return header + Option.list(commands, deliminator, offset) + prompt;
     }
 
-    public MenuCommand getCommand(int number)
+    public MenuCommand getCommand(int number) throws InvalidCommandException
     {
-        return commands[number - 1];
+        try
+        {
+            return commands[number - 1];
+        } catch (Exception e)
+        {
+            throw new InvalidCommandException(Integer.toString(number));
+        }
+    }
+    
+    public String getDeliminator ()
+    {
+        return deliminator;
+    }
+    
+    public void setDeliminator (String deliminator)
+    {
+        this.deliminator = deliminator;
+    }
+    
+    public int getOffset ()
+    {
+        return offset;
+    }
+    
+    public void setOffset (int offset)
+    {
+        this.offset = offset;
     }
 }

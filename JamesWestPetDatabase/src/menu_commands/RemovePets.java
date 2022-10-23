@@ -1,6 +1,7 @@
 package menu_commands;
 
 import cli_helpers.MenuCommand;
+import exceptions.InvalidIdException;
 import main.Pet;
 import main.PetDatabase;
 
@@ -17,8 +18,19 @@ public class RemovePets extends MenuCommand
         System.out.print("Enter the pet ID to remove: ");
 
         String delPetName = "";
-        // Cool use of functional program here, but can't yet use.
-        // Pet pet = pets.stream().filter(p -> p.getID() == Integer.parseInt(s.nextLine())).findFirst().orElse(null);
-        PetDatabase.PETS.remove(Pet.findByID(PetDatabase.PETS, Integer.parseInt(PetDatabase.STDIN.nextLine())));
+
+        try
+        {
+            removePet();
+        } catch (InvalidIdException e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+    public void removePet() throws InvalidIdException
+    {
+        Pet pet = Pet.findByID(PetDatabase.PETS, Integer.parseInt(PetDatabase.STDIN.nextLine()));
+        PetDatabase.PETS.remove(pet);
+        System.out.println(pet.getName() + " " + pet.getAge() + " is removed.");
     }
 }

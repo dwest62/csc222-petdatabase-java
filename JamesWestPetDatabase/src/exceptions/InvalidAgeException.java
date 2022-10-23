@@ -1,10 +1,10 @@
 package exceptions;
 
 // TODO Implement Exceptions.InvalidAgeException - thrown in setAge() if range is outside 1-50
-class InvalidAgeException extends Exception
+public class InvalidAgeException extends Exception
 {
-    InvalidAgeException(int age)
+    public InvalidAgeException (int age)
     {
-        super(age + " is not a valid age.");
+        super("InvalidAgeException: " + age + " is not a valid age.");
     }
 }

@@ -1,10 +1,9 @@
 package exceptions;
 
-// TODO Implement Exceptions.InvalidArgumentException - thrown in parseArgument() if input is not valid
-class InvalidArgumentException extends Exception
+public class InvalidArgumentException extends Exception
 {
-    InvalidArgumentException(String input)
+    public InvalidArgumentException (String input)
     {
-        super(input + " is not a valid input.");
+        super("InvalidArgumentException: " + input + " is not a valid input.");
     }
 }
