@@ -1,5 +1,8 @@
-package cli_helpers;
-
+/**
+ * Represents a table field. Contains name of and width of column in table.
+ * @see StringIntPair
+ * @see TableBuilder
+ */
 public class Field extends StringIntPair
 {
     public Field(int width, String name)

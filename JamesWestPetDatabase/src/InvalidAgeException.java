@@ -1,6 +1,7 @@
-package exceptions;
-
-// TODO Implement Exceptions.InvalidAgeException - thrown in setAge() if range is outside 1-50
+/**
+ * Used to indicate invalid age.
+ * @see Exception
+ */
 public class InvalidAgeException extends Exception
 {
     public InvalidAgeException (int age)

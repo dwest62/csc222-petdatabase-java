@@ -1,8 +1,4 @@
-package main;
-
 import java.util.ArrayList;
-import exceptions.InvalidAgeException;
-import exceptions.InvalidIdException;
 
 /**
  * Represents a pet class containing pet data
@@ -13,7 +9,13 @@ public class Pet
     private final int ID;            // Unique id given to each pet
     private String name;
     private int age;
-
+    
+    /**
+     * @param name represents name of pet
+     * @param age represents age of pet
+     * @param id represents pet id
+     * @throws InvalidAgeException if age is not in range 1 to 50
+     */
     Pet(String name, int age, int id) throws InvalidAgeException
     {
         setName(name);
@@ -23,7 +25,7 @@ public class Pet
     }
 
     /**
-     * Constructor for a main.Pet object
+     * Constructor for a Pet object
      *
      * @param name Name of pet
      * @param age  Age of pet
@@ -31,11 +33,6 @@ public class Pet
     public Pet(String name, int age) throws InvalidAgeException
     {
         this(name, age, nextID);
-    }
-
-    public static int getNextID()
-    {
-        return nextID;
     }
 
     /**
@@ -79,7 +76,13 @@ public class Pet
             throw new InvalidAgeException(age);
         this.age = age;
     }
-
+    
+    /**
+     * @param pets ArrayList of pets to search
+     * @param id id of pet to find
+     * @return pet from supplied ArrayList with supplied id
+     * @throws InvalidIdException if id not found
+     */
     public static Pet findByID(ArrayList<Pet> pets, int id) throws InvalidIdException
     {
         for (Pet pet : pets)

@@ -1,6 +1,7 @@
-package exceptions;
-
-// TODO Implement Exceptions.FullDatabaseException - thrown in addPet() when petCount == CAPACITY
+/**
+ * Used to indicate a database is full.
+ * @see Exception
+ */
 public class FullDatabaseException extends Exception
 {
     public FullDatabaseException ()

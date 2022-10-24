@@ -1,6 +1,8 @@
-package exceptions;
-
-// TODO Implement Exceptions.InvalidIdException - thrown in removePet() (and update pet?) when ID is not in range 0 - petCount
+/**
+ * Used to indicate invalid id
+ * @see PetDatabaseCLI.RemovePet
+ * @see Exception
+ */
 public class InvalidIdException extends Exception
 {
     public InvalidIdException (int id)
