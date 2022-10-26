@@ -655,8 +655,8 @@ public class JamesWestPetDatabaseV2
      */
     public static class StringIntPair
     {
-        protected int n = 0;
-        protected String str = "";
+        protected int n;
+        protected String str;
         
         /**
          * Construct a new String int pair
